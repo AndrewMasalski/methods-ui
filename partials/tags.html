@@ -1,0 +1,39 @@
+<div>
+    <div class="form-group form-inline">
+        <input type="text"
+               ng-model="new"
+               placeholder="Новый раздел"
+               class="input-lg"
+               style="width: 47%"
+               m-enter="add()">
+        <button type="button" class="btn btn-info btn-md" ng-click="add()">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+    </div>
+    <div class="panel panel-default" style="width: 50%">
+        <table class="table table-striped">
+            <tbody>
+            <tr ng-repeat="tag in tags"
+                e-required
+                e-style="width: 200%"
+                editable-text="tag.text"
+                e-form="textBtnForm"
+                buttons="no"
+                onbeforesave="save(tag, $data)">
+                <td>
+                    <span class="label label-info">{{tag.weigth}}</span> <a ui-sref="dashboard({tag: tag._id})">{{tag.text}}</a>
+                </td>
+                <td class="text-right text-nowrap">
+                    <button type="button" class="btn btn-info btn-sm" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm" ng-disabled="tag.weigth > 0" ng-click="delete(tag)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div data-ng-show="error" class="alert alert-danger"><strong>Server error:</strong> {{error}}</div>

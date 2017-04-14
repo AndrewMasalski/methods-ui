@@ -1,0 +1,31 @@
+<div class="form">
+    <fieldset  style="margin: 10px" ng-disabled="readOnly" >
+        <form class="form-horizontal" name="userForm" novalidate>
+            <div class="form-group" ng-class="{ 'has-error' : userForm.username.$invalid && !userForm.username.$pristine }">
+                <label>Ник</label>
+                <input type="text" id="username" class="form-control" ng-model="user.username" required>
+                <p ng-show="userForm.username.$invalid && !userForm.username.$pristine && userForm.$submitted" class="help-block">Введите имя пользователя.</p>
+            </div>
+
+            <div class="form-group">
+                <label>Имя</label>
+                <input type="text" id="firstname" class="form-control" ng-model="user.firstname">
+            </div>
+
+            <div class="form-group">
+                <label>Фамилия</label>
+                <input type="text" id="lastname" class="form-control" ng-model="user.lastname">
+            </div>
+
+<!--
+            <div class="form-group">
+                <label>Доступ</label>
+                <select name="group" id="group" class="form-control" ng-model="user.permission._id">
+                    <option ng-repeat="permission in permissions" value="{{permission._id}}">{{permission.name}}</option>
+                </select>
+            </div>
+-->
+        </form>
+    </fieldset >
+    <button type="button" ng-click="save()" class="btn btn-default" data-dismiss="modal">Сохранить</button>
+</div>
