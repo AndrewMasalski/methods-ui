@@ -1,5 +1,4 @@
 angular.module('Methods')
-    .constant('host', 'http://localhost:30003/')
     .factory('EntitySet', function($http, host, $q) {
         return function(name, domain) {
             domain = domain || 'api';
