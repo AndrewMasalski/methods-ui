@@ -1,10 +1,11 @@
 angular.module('Methods')
-    .controller('searchCtrl', function($scope, $state, $stateParams, ModalService, api, $q, block) {
+    .controller('searchCtrl', function($scope, $state, $stateParams, $sce, ModalService, api, $q, block) {
         $scope.filterState = {
             group: $stateParams.group || '---',
             tags: $stateParams.tag ? [$stateParams.tag] : []
         };
 
+        $scope.searchTerms = undefined;
         $scope.methods = [];
         $scope.groups = [];
         $scope.tags = [];
@@ -32,6 +33,7 @@ angular.module('Methods')
             block.toggle();
             api.methods.many(getSearchParams())
                 .then(function(res) {
+                    $scope.searchTerms = $scope.filterState.description;
                     $scope.next = res.$next;
                     $scope.methods = res.results;
                     $scope.resultsInfo = 'Найдено ' + $scope.methods.length + ' из ' + res.$count;
@@ -54,7 +56,7 @@ angular.module('Methods')
                     angular.forEach(res.results, function(method) {
                         $scope.methods.push(method);
                     });
-                    $scope.resultsInfo = 'Показано ' + $scope.methods.length + ' из ' + res.$count;
+                    $scope.resultsInfo = 'Найдено ' + $scope.methods.length + ' из ' + res.$count;
                     $scope.next = res.$next;
                     $scope.busy = false;
                 })
@@ -62,22 +64,6 @@ angular.module('Methods')
                     $scope.next = undefined;
                     $scope.error = err;
                 })
-        };
-
-        $scope.create = function() {
-            $scope.error = undefined;
-            ask('Создать', undefined, api.methods.add);
-        };
-
-        $scope.edit = function(method) {
-            $scope.error = undefined;
-            let clone = angular.copy(method);
-            ask('Редактировать', clone, api.methods.save);
-        };
-
-        $scope.delete = function(method) {
-            $scope.error = undefined;
-            ask('Удалить', method, api.methods.delete);
         };
 
         $scope.addTagFilter = function($event, tag) {
@@ -104,28 +90,6 @@ angular.module('Methods')
                 searchParams.description = undefined;
             }
             return searchParams;
-        }
-
-        function ask(action, data, cb) {
-            let modalOptions = {
-                templateUrl: 'partials/methodDetails.html',
-                controller: "methodDetailsController",
-                inputs: {
-                    action: action,
-                    method: data,
-                    groups: $scope.groups,
-                    tags: $scope.tags
-                }
-            };
-            ModalService.showModal(modalOptions)
-                .then(function(modal) {
-                    modal.element.modal();
-                    modal.close.then(function(result) {
-                        if (result) {
-                            cb(result).catch(onError)
-                        }
-                    });
-                })
         }
 
         function onError(err) {

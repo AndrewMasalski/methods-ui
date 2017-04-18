@@ -37,7 +37,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="method in methods">
-                    <td>{{method.description}}</td>
+                    <td ng-bind-html="method.description | highlight:searchTerms"></td>
                     <td>{{method.group.name}}</td>
                     <td>{{method.type}}</td>
                     <td>{{method.year}}</td>

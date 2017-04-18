@@ -89,4 +89,12 @@ angular.module('Methods', ngmodules)
                 }
             });
         };
+    })
+    .filter('highlight', function($sce) {
+        return function(str, termsToHighlight) {
+            if (!termsToHighlight) {
+                return $sce.trustAsHtml(str);
+            }
+            return $sce.trustAsHtml(str.replace(termsToHighlight, '<span class="highlightedText !important;">$&</span>'));
+        };
     });
