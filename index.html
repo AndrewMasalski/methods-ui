@@ -12,6 +12,8 @@
     <link type="text/css" href="node_modules/angular-block-ui/dist/angular-block-ui.min.css" rel="stylesheet">
     <link type="text/css" href="node_modules/ng-tags-input/build/ng-tags-input.css" rel="stylesheet">
     <link type="text/css" href="node_modules/ng-tags-input/build/ng-tags-input.bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" href="node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link type="text/css" href="node_modules/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
     <script src="node_modules/lodash/lodash.min.js"></script>
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -26,14 +28,14 @@
     <script src="node_modules/ng-tags-input/build/ng-tags-input.min.js"></script>
     <script src="node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js"></script>
 
-
     <script src="app.js"></script>
     <script src="services/host.js"></script>
     <script src="services/authService.js"></script>
     <script src="services/apiService.js"></script>
     <script src="services/blockService.js"></script>
     <script src="ctrl/mainCtrl.js"></script>
-    <script src="ctrl/dashboardCtrl.js"></script>
+    <script src="ctrl/searchCtrl.js"></script>
+    <script src="ctrl/methodsCtrl.js"></script>
     <script src="ctrl/usersCtrl.js"></script>
     <script src="ctrl/groupsCtrl.js"></script>
     <script src="ctrl/tagsCtrl.js"></script>
@@ -49,7 +51,8 @@
                     <span class="navbar-brand">Каталог</span>
                 </div>
                 <ul class="nav navbar-nav" ng-show="isLoggedIn()">
-                    <li ui-sref-active="active" class="item"><a ui-sref="dashboard">Главная</a></li>
+                    <li ui-sref-active="active" class="item"><a ui-sref="search">Поиск</a></li>
+                    <li ui-sref-active="active" class="item"><a ui-sref="methods">Методики</a></li>
                     <li ui-sref-active="active" class="item"><a ui-sref="groups">Разделы</a></li>
                     <li ui-sref-active="active" class="item"><a ui-sref="tags">Тэги</a></li>
                 </ul>

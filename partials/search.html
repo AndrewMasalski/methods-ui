@@ -1,0 +1,57 @@
+<div class="input-group input-group-lg">
+    <input type="text" class="form-control" m-enter="filter()" ng-model="filterState.description" placeholder="введите текст для поиска"/>
+    <div class="input-group-btn">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">по всем полям <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            <li><a href="#">по году</a></li>
+            <li><a href="#">по типу</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">по тэгам</a></li>
+        </ul>
+        <button type="submit" class="btn btn-primary" ng-click="filter()">найти</button>
+    </div>
+</div>
+<div class="container-fluid" ng-hide="methods.length == 0" id="results">
+    <hr/>
+    <h4>{{resultsInfo}}</h4>
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="checkbox abc-checkbox abc-checkbox-success" ng-repeat="item in groups">
+                <input type="checkbox" id="{{item._id}}" class="styled">
+                <label for="{{item._id}}">
+                    {{item.name | limitTo : 25}}{{item.name.length > 25 ? '...' : ''}}
+                </label>
+            </div>
+        </div>
+        <div class="col-lg-10">
+            <table class="table table-striped" infinite-scroll='nextPage()' infinite-scroll-disabled='busy'
+                   infinite-scroll-distance='1'>
+                <thead>
+                <tr>
+                    <th class="col-lg-4">Описание</th>
+                    <th class="col-lg-1">Раздел</th>
+                    <th class="col-lg-1">Тип</th>
+                    <th class="col-lg-1">Год</th>
+                    <th class="col-lg-2">Тэги</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="method in methods">
+                    <td>{{method.description}}</td>
+                    <td>{{method.group.name}}</td>
+                    <td>{{method.type}}</td>
+                    <td>{{method.year}}</td>
+                    <td>
+                        <a href="#" style="margin-left: 5px" class="label label-info" ng-repeat="tag in method.tags"
+                           ng-click="addTagFilter($event, tag)">
+                            {{tag.text}}
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div data-ng-show="error" class="alert alert-danger"><strong>Server error:</strong> {{error}}</div>

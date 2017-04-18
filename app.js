@@ -11,7 +11,7 @@ let ngmodules = [
 ];
 angular.module('Methods', ngmodules)
     .config(function($stateProvider, $urlRouterProvider, blockUIConfig) {
-        $urlRouterProvider.otherwise("/dashboard");
+        $urlRouterProvider.otherwise("/search");
 
         console.log('app.config');
 
@@ -25,15 +25,21 @@ angular.module('Methods', ngmodules)
                 data: {requireLogin: false},
                 controller: 'mainCtrl'
             })
-            .state('dashboard', {
-                url: "/dashboard?group&tag",
+            .state('search', {
+                url: "/search?group&tag",
                 params: {
                     group: null,
                     tag: null
                 },
-                templateUrl: "partials/dashboard.html",
+                templateUrl: "partials/search.html",
                 data: {requireLogin: true},
-                controller: 'dashboardCtrl'
+                controller: 'searchCtrl'
+            })
+            .state('methods', {
+                url: "/methods/:id",
+                templateUrl: "partials/methods.html",
+                data: {requireLogin: true},
+                controller: 'methodsCtrl'
             })
             .state('users', {
                 url: "/users/:username",
@@ -62,7 +68,8 @@ angular.module('Methods', ngmodules)
 
         $rootScope.$on("$stateChangeStart",
             function(event, toState, toParams, fromState, fromParams) {
-                if ((toState.data || {}).requireLogin && !auth.authenticated()) {
+                let requireLogin = (toState.data || {}).requireLogin;
+                if (requireLogin && !auth.authenticated()) {
                     event.preventDefault();
                     $state.transitionTo('auth');
                 }
@@ -80,46 +87,6 @@ angular.module('Methods', ngmodules)
 
                     event.preventDefault();
                 }
-            });
-        };
-    })
-    .filter('mFilter', function() {
-        return function(array, state) {
-            if (!(state.code || state.description || state.group || state.type || state.tags || state.year))
-                return array;
-
-            function compareStrings(source, filter) {
-                return ((source || '').toLowerCase().indexOf((filter || '').toLowerCase()) >= 0);
-            }
-
-            return array.filter(function(o) {
-                let matches = [];
-                let match;
-                if (!!state.code) {
-                    match = compareStrings(o.code, state.code);
-                    matches.push(match);
-                }
-                if (!!state.description) {
-                    match = compareStrings(o.description, state.description);
-                    matches.push(match);
-                }
-                if (!!state.type) {
-                    match = compareStrings(o.type, state.type);
-                    matches.push(match);
-                }
-                if (!!state.year) {
-                    match = compareStrings(o.year, state.year);
-                    matches.push(match);
-                }
-                if (!!state.group) {
-                    match = compareStrings(o.group._id, state.group);
-                    matches.push(match);
-                }
-                if (state.tags.length > 0) {
-                    match = _.intersectionBy((o.tags || []), state.tags, '_id').length > 0;
-                    matches.push(match);
-                }
-                return _.every(matches, function(m) { return m });
             });
         };
     });

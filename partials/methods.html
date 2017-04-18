@@ -1,0 +1,42 @@
+<button class="btn btn-primary btn-lg" ng-click="create()" style="width: 200px; text-align: right;">Добавить методику</button>
+<table class="table table-striped" infinite-scroll='nextPage()' infinite-scroll-disabled='busy'
+       infinite-scroll-distance='1'>
+    <thead>
+    <tr>
+        <th class="col-lg-4">Описание</th>
+        <th class="col-lg-1">Группа</th>
+        <th class="col-lg-1">Тип</th>
+        <th class="col-lg-1">Год</th>
+        <th class="col-lg-2">Тэги</th>
+        <th class="col-lg-1"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="method in methods">
+        <td>{{method.description}}</td>
+        <td>{{method.group.name}}</td>
+        <td>{{method.type}}</td>
+        <td>{{method.year}}</td>
+        <td>
+            <a href="#" style="margin-left: 5px" class="label label-info" ng-repeat="tag in method.tags">
+                {{tag.text}}
+            </a>
+        </td>
+        <td class="text-right text-nowrap">
+            <button type="button" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-info btn-sm" ng-click="edit(method)">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+            <button type="button" class="btn btn-danger btn-sm" ng-click="delete(method)">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+
+
+<div data-ng-show="error" class="alert alert-danger"><strong>Server error:</strong> {{error}}</div>
