@@ -1,42 +1,41 @@
 angular.module('Methods')
     .controller('searchCtrl', function($scope, $state, $stateParams, $sce, ModalService, api, $q, block) {
-        $scope.filterState = {
-            group: $stateParams.group || '---',
-            tags: $stateParams.tag ? [$stateParams.tag] : []
+        $scope.searchParams = {
+            highlight: true,
+            query: $stateParams.query
         };
 
         $scope.searchTerms = undefined;
         $scope.methods = [];
         $scope.groups = [];
         $scope.tags = [];
-        $scope.newMethod = {};
         $scope.next = undefined;
-        $scope.busy = true;
 
         block.toggle();
         $q.all([api.groups.many(), api.tags.many()])
             .then(function(res) {
                 $scope.groups = res[0].results || [];
                 $scope.tags = res[1].results || [];
-                let tagFromParam = _.find($scope.tags, {_id: $stateParams.tag});
-                if (tagFromParam) {
-                    $scope.filterState.tags = [tagFromParam];
-                }
                 block.toggle();
-                $scope.busy = false;
+            })
+            .then(function() {
+                if ($scope.searchParams.query) {
+                    return $scope.search();
+                }
             })
             .catch(onError);
 
-        $scope.filter = function() {
+        $scope.search = function() {
             $scope.error = undefined;
             $scope.next = undefined;
             block.toggle();
-            api.methods.many(getSearchParams())
+            $state.go('search', $scope.searchParams, {notify: false});
+            return api.search($scope.searchParams)
                 .then(function(res) {
-                    $scope.searchTerms = $scope.filterState.description;
+                    $scope.searchTerms = $scope.searchParams.query;
                     $scope.next = res.$next;
                     $scope.methods = res.results;
-                    $scope.resultsInfo = 'Найдено ' + $scope.methods.length + ' из ' + res.$count;
+                    $scope.resultsInfo = 'Найдено ' + $scope.methods.length + ' результат(а|ов)';
                     block.toggle();
                 })
                 .catch(function(err) {
@@ -49,16 +48,15 @@ angular.module('Methods')
         $scope.nextPage = function() {
             if ($scope.next === undefined) return;
 
-            $scope.busy = true;
-            let query = _.assign(getSearchParams(), $scope.next);
+            let query = _.assign($scope.searchParams, $scope.next);
+            $state.go('search', query, {notify: false});
             api.methods.next(query)
                 .then(function(res) {
                     angular.forEach(res.results, function(method) {
                         $scope.methods.push(method);
                     });
-                    $scope.resultsInfo = 'Найдено ' + $scope.methods.length + ' из ' + res.$count;
+                    $scope.resultsInfo = 'Найдено ' + $scope.methods.length + ' результат(а|ов)';
                     $scope.next = res.$next;
-                    $scope.busy = false;
                 })
                 .catch(function(err) {
                     $scope.next = undefined;
@@ -68,29 +66,8 @@ angular.module('Methods')
 
         $scope.addTagFilter = function($event, tag) {
             $event.preventDefault();
-            $scope.filterState.tags.push(tag);
+//            $scope.searchParams.tags.push(tag);
         };
-
-        function getSearchParams() {
-            let searchParams = _.clone($scope.filterState);
-            searchParams.tags = _.map($scope.filterState.tags, '_id').join(';');
-            if (searchParams.group === '---') {
-                searchParams.group = undefined;
-            }
-            if (searchParams.tags.length === 0) {
-                searchParams.tags = undefined;
-            }
-            if (searchParams.type === '') {
-                searchParams.type = undefined;
-            }
-            if (searchParams.year === '') {
-                searchParams.year = undefined;
-            }
-            if (searchParams.description === '') {
-                searchParams.description = undefined;
-            }
-            return searchParams;
-        }
 
         function onError(err) {
             $scope.error = err;

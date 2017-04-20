@@ -26,11 +26,12 @@ angular.module('Methods', ngmodules)
                 controller: 'mainCtrl'
             })
             .state('search', {
-                url: "/search?group&tag",
+                url: "/search?query&page",
                 params: {
-                    group: null,
-                    tag: null
+                    query: null,
+                    page: null
                 },
+                reloadOnSearch: false,
                 templateUrl: "partials/search.html",
                 data: {requireLogin: true},
                 controller: 'searchCtrl'
@@ -68,6 +69,7 @@ angular.module('Methods', ngmodules)
 
         $rootScope.$on("$stateChangeStart",
             function(event, toState, toParams, fromState, fromParams) {
+                console.log('changing route from', (fromState.name || '[none]'), 'to', toState.name);
                 let requireLogin = (toState.data || {}).requireLogin;
                 if (requireLogin && !auth.authenticated()) {
                     event.preventDefault();
@@ -88,13 +90,5 @@ angular.module('Methods', ngmodules)
                     event.preventDefault();
                 }
             });
-        };
-    })
-    .filter('highlight', function($sce) {
-        return function(str, termsToHighlight) {
-            if (!termsToHighlight) {
-                return $sce.trustAsHtml(str);
-            }
-            return $sce.trustAsHtml(str.replace(termsToHighlight, '<span class="highlightedText !important;">$&</span>'));
         };
     });

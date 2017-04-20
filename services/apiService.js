@@ -55,21 +55,16 @@ angular.module('Methods')
         this.groups = new EntitySet('groups');
         function onError(err) { return err.data.message; }
 
-        this.loadAll = function(params) {
-            return $q.all([api.methods.many(params), api.groups.many(), api.tags.many()])
-                .then(function(res) {
-                    return {
-                        methods: res[0].results || [],
-                        next: res[0].$next,
-                        count: res[0].$count,
-                        groups: res[1].results || [],
-                        tags: res[2].results || []
-                    }
-                })
-        };
-
         this.login = function(user) {
             return $http.post(host + 'auth/login', user)
+                .then(function(response) {
+                    return response.data;
+                })
+                .catch(onError);
+        };
+
+        this.search = function(params) {
+            return $http.post(host + 'api/search', params)
                 .then(function(response) {
                     return response.data;
                 })

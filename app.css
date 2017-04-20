@@ -1,5 +1,5 @@
 div[ng-app] { margin: 10px; }
 
-.highlightedText {
+.highlighted {
     background: yellow;
 }
