@@ -18,7 +18,7 @@ angular.module('Methods')
             auth.signin($scope.user)
                 .then(function() {
                     console.log('auth success');
-                    $state.go('dashboard');
+                    $state.go('search');
                     block.toggle();
                 })
                 .catch(function(err) {

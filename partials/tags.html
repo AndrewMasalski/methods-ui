@@ -21,7 +21,7 @@
                 buttons="no"
                 onbeforesave="save(tag, $data)">
                 <td>
-                    <span class="label label-info">{{tag.weigth}}</span> <a ui-sref="dashboard({tag: tag._id})">{{tag.text}}</a>
+                    <span class="label label-info">{{tag.weigth}}</span> <a ui-sref="search({tag: tag._id})">{{tag.text}}</a>
                 </td>
                 <td class="text-right text-nowrap">
                     <button type="button" class="btn btn-info btn-sm" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">

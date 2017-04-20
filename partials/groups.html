@@ -21,7 +21,7 @@
                 buttons="no"
                 onbeforesave="save(gr, $data)">
                 <td>
-                    <span class="label label-info">{{gr.count}}</span> <a ui-sref="dashboard({group: gr._id})">{{gr.name || 'пусто'}}</a>
+                    <span class="label label-info">{{gr.count}}</span> <a ui-sref="search({group: gr._id})">{{gr.name || 'пусто'}}</a>
                 </td>
                 <td class="text-right text-nowrap">
                     <button type="button" class="btn btn-info btn-sm" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
