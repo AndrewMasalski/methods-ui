@@ -40,18 +40,18 @@
         </div>
         <div class="col-lg-10">
             <div>
-            <ul uib-pagination
-                ng-change="pageChanged()"
-                total-items="totalCount"
-                items-per-page="pageSize"
-                max-size="5"
-                previous-text="туда"
-                next-text="сюда"
-                ng-model="page"
-                class="pagination-sm"
-                boundary-link-numbers="true">
-            </ul>
-                <h4 class="pull-right">{{resultsInfo}}</h4>
+                <ul uib-pagination
+                    ng-change="pageChanged()"
+                    total-items="totalCount"
+                    items-per-page="pageSize"
+                    max-size="5"
+                    previous-text="туда"
+                    next-text="сюда"
+                    ng-model="page"
+                    class="pagination-sm"
+                    boundary-link-numbers="true">
+                </ul>
+                <h5 class="pull-right">{{resultsInfo}}</h5>
             </div>
             <table class="table table-striped">
                 <thead>

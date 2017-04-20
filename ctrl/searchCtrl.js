@@ -4,7 +4,7 @@ angular.module('Methods')
         $scope.methods = [];
         $scope.groups = [];
         $scope.tags = [];
-        $scope.pageSize = 10;
+        $scope.pageSize = 7;
         $scope.totalCount = 0;
         $scope.page = $stateParams.page || 1;
         $scope.searchParams = {
@@ -12,15 +12,6 @@ angular.module('Methods')
             pageSize: $scope.pageSize,
             query: $stateParams.query
         };
-
-        block.toggle();
-        $q.all([api.groups.many(), api.tags.many()])
-            .then(function(res) {
-                $scope.groups = res[0].results || [];
-                $scope.tags = res[1].results || [];
-                block.toggle();
-            })
-            .catch(onError);
 
         $scope.search = function() {
             $scope.error = undefined;
@@ -31,13 +22,12 @@ angular.module('Methods')
                     $scope.searchTerms = $scope.searchParams.query;
                     $scope.totalCount = res.$count;
                     $scope.methods = res.results;
+                    $scope.tags = res.filter.tags;
+                    $scope.groups = res.filter.groups;
                     $scope.resultsInfo = 'Найдено ' + res.$count + ' результат(а|ов)';
                     block.toggle();
                 })
-                .catch(function(err) {
-                    $scope.error = err;
-                    block.toggle();
-                })
+                .catch(onError)
         };
 
         $scope.pageChanged = function() {

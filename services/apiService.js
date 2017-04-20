@@ -1,12 +1,14 @@
 angular.module('Methods')
-    .factory('EntitySet', function($http, host, $q) {
+    .factory('onError', function($q) {
+        return function(err) {
+            let hasErrorMessage = !!err.data && !!err.data.message;
+            return $q.reject(hasErrorMessage ? err.data.message : 'Ошибка получения данных с сервера');
+        }
+    })
+    .factory('EntitySet', function($http, host, onError) {
         return function(name, domain) {
             domain = domain || 'api';
             const server = host + domain + '/';
-
-            function onError(err) {
-                return $q.reject(err.data.message);
-            }
 
             return {
                 many: function(params) {
@@ -47,13 +49,12 @@ angular.module('Methods')
             }
         }
     })
-    .service('api', function($http, $q, host, EntitySet) {
+    .service('api', function($http, $q, host, EntitySet, onError) {
         let api = this;
         this.users = new EntitySet('users', 'auth');
         this.methods = new EntitySet('methods');
         this.tags = new EntitySet('tags');
         this.groups = new EntitySet('groups');
-        function onError(err) { return err.data.message; }
 
         this.login = function(user) {
             return $http.post(host + 'auth/login', user)
