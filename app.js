@@ -7,7 +7,8 @@ let ngmodules = [
     'xeditable',
     'ngTagsInput',
     'blockUI',
-    'infinite-scroll'
+    'infinite-scroll',
+    'ui.bootstrap'
 ];
 angular.module('Methods', ngmodules)
     .config(function($stateProvider, $urlRouterProvider, blockUIConfig) {

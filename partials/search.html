@@ -3,29 +3,56 @@
            placeholder="введите текст для поиска"/>
     <div class="input-group-btn">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">по всем полям <span class="caret"></span></button>
+                aria-expanded="false">по всему тексту <span class="caret"></span></button>
         <ul class="dropdown-menu">
             <li><a href="#">по году</a></li>
             <li><a href="#">по типу</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">по тэгам</a></li>
         </ul>
         <button type="submit" class="btn btn-primary" ng-click="search()">найти</button>
     </div>
 </div>
 <div class="container-fluid" ng-hide="methods.length == 0" id="results">
     <hr/>
-    <h4>{{resultsInfo}}</h4>
     <div class="row">
         <div class="col-lg-2">
-            <div class="checkbox abc-checkbox abc-checkbox-success" ng-repeat="item in groups">
-                <input type="checkbox" id="{{item._id}}" class="styled">
-                <label for="{{item._id}}">
-                    {{item.name | limitTo : 25}}{{item.name.length > 25 ? '...' : ''}}
-                </label>
+            <div class="panel panel-success">
+                <div class="panel-heading">Фильтр по разделам</div>
+                <div class="panel-body" style="margin-left: 5px">
+                    <div class="checkbox abc-checkbox abc-checkbox-success" ng-repeat="item in groups">
+                        <input type="checkbox" id="{{item._id}}" class="styled">
+                        <label for="{{item._id}}">
+                            {{item.name | limitTo : 25}}{{item.name.length > 25 ? '...' : ''}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">Фильтр по тэгам</div>
+                <div class="panel-body" style="margin-left: 5px">
+                    <div class="checkbox abc-checkbox abc-checkbox-success" ng-repeat="tag in tags">
+                        <input type="checkbox" id="{{tag._id}}" class="styled">
+                        <label for="{{tag._id}}">
+                            {{tag.text | limitTo : 25}}{{tag.text.length > 25 ? '...' : ''}}
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-lg-10">
+            <div>
+            <ul uib-pagination
+                ng-change="pageChanged()"
+                total-items="totalCount"
+                items-per-page="pageSize"
+                max-size="5"
+                previous-text="туда"
+                next-text="сюда"
+                ng-model="page"
+                class="pagination-sm"
+                boundary-link-numbers="true">
+            </ul>
+                <h4 class="pull-right">{{resultsInfo}}</h4>
+            </div>
             <table class="table table-striped">
                 <thead>
                 <tr>
