@@ -51,7 +51,7 @@ angular.module('Methods')
     })
     .service('api', function($http, $q, host, EntitySet, onError) {
         let api = this;
-        this.users = new EntitySet('users', 'auth');
+        this.users = new EntitySet('users', 'urm');
         this.methods = new EntitySet('methods');
         this.tags = new EntitySet('tags');
         this.groups = new EntitySet('groups');

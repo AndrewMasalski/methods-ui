@@ -1,0 +1,25 @@
+<div class="panel panel-success">
+    <div class="panel-heading">Фильтр по разделам</div>
+    <div class="panel-body" style="margin-left: 5px">
+        <div class="checkbox abc-checkbox abc-checkbox-success" ng-repeat="gr in $ctrl.filters.groups">
+            <input type="checkbox" id="{{gr._id}}" class="styled" ng-model="gr.checked">
+            <label for="{{gr._id}}">
+                {{gr.name | limitTo : 25}}{{gr.name.length > 25 ? '...' : ''}}
+                <span class="label label-info pull-right">{{gr.count}}</span>
+            </label>
+        </div>
+    </div>
+</div>
+<div class="panel panel-success">
+    <div class="panel-heading">Фильтр по тэгам</div>
+    <div class="panel-body" style="margin-left: 5px">
+        <div class="checkbox abc-checkbox abc-checkbox-success" ng-repeat="tag in $ctrl.filters.tags">
+            <input type="checkbox" id="{{tag._id}}" class="styled" ng-model="tag.checked">
+            <label for="{{tag._id}}">
+                {{tag.text | limitTo : 25}}{{tag.text.length > 25 ? '...' : ''}}
+                <span class="label label-info pull-right">{{tag.count}}</span>
+            </label>
+        </div>
+    </div>
+</div>
+<button class="btn btn-primary" ng-click="$ctrl.applyFilter()">Применить фильтры</button>

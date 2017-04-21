@@ -11,77 +11,21 @@
         <button type="submit" class="btn btn-primary" ng-click="search()">найти</button>
     </div>
 </div>
-<div class="container-fluid" ng-hide="methods.length == 0" id="results">
+<div class="container-fluid" ng-hide="results.length == 0" id="results">
     <hr/>
     <div class="row">
         <div class="col-lg-2">
-            <div class="panel panel-success">
-                <div class="panel-heading">Фильтр по разделам</div>
-                <div class="panel-body" style="margin-left: 5px">
-                    <div class="checkbox abc-checkbox abc-checkbox-success" ng-repeat="item in groups">
-                        <input type="checkbox" id="{{item._id}}" class="styled">
-                        <label for="{{item._id}}">
-                            {{item.name | limitTo : 25}}{{item.name.length > 25 ? '...' : ''}}
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-success">
-                <div class="panel-heading">Фильтр по тэгам</div>
-                <div class="panel-body" style="margin-left: 5px">
-                    <div class="checkbox abc-checkbox abc-checkbox-success" ng-repeat="tag in tags">
-                        <input type="checkbox" id="{{tag._id}}" class="styled">
-                        <label for="{{tag._id}}">
-                            {{tag.text | limitTo : 25}}{{tag.text.length > 25 ? '...' : ''}}
-                        </label>
-                    </div>
-                </div>
-            </div>
+            <filters-panel filters="postFilters" on-apply="onFiltersApply(filters)"></filters-panel>
         </div>
         <div class="col-lg-10">
-            <div>
-                <ul uib-pagination
-                    ng-change="pageChanged()"
-                    total-items="totalCount"
-                    items-per-page="pageSize"
-                    max-size="5"
-                    previous-text="туда"
-                    next-text="сюда"
-                    ng-model="page"
-                    class="pagination-sm"
-                    boundary-link-numbers="true">
-                </ul>
-                <h5 class="pull-right">{{resultsInfo}}</h5>
-            </div>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th class="col-lg-6">Описание</th>
-                    <th class="col-lg-1">Раздел</th>
-                    <th class="col-lg-1">Тип</th>
-                    <th class="col-lg-1">Год</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="method in methods">
-                    <td>
-                        <div ng-bind-html="method.description"></div>
-                        <p class="text-muted">
-                            <a href="#"
-                               style="margin-left: 5px"
-                               class="label label-info"
-                               ng-repeat="tag in method.tags"
-                               ng-click="addTagFilter($event, tag)">
-                                {{tag.text}}
-                            </a>
-                        </p>
-                    </td>
-                    <td>{{method.group.name}}</td>
-                    <td>{{method.type}}</td>
-                    <td>{{method.year}}</td>
-                </tr>
-                </tbody>
-            </table>
+            <results-panel
+                    page="page"
+                    methods="results"
+                    results-info="resultsInfo"
+                    page-size="pageSize"
+                    total-count="totalCount"
+                    on-page-changed="search(page)">
+            </results-panel>
         </div>
     </div>
 </div>

@@ -1,0 +1,43 @@
+<div>
+    <ul uib-pagination
+        ng-change="$ctrl.onPageChanged({page: $ctrl.page})"
+        total-items="$ctrl.totalCount"
+        items-per-page="$ctrl.pageSize"
+        max-size="5"
+        previous-text="туда"
+        next-text="сюда"
+        ng-model="$ctrl.page"
+        class="pagination-sm"
+        boundary-link-numbers="true">
+    </ul>
+    <h5 class="pull-right">Найдено {{$ctrl.totalCount}} результат(а|ов)</h5>
+</div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th class="col-lg-6">Описание</th>
+        <th class="col-lg-1">Раздел</th>
+        <th class="col-lg-1">Тип</th>
+        <th class="col-lg-1">Год</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="method in $ctrl.methods">
+        <td>
+            <div ng-bind-html="method.description"></div>
+            <p class="text-muted">
+                <a href="#"
+                   style="margin-left: 5px"
+                   class="label label-info"
+                   ng-repeat="tag in method.tags"
+                   ng-click="addTagFilter($event, tag)">
+                    {{tag.text}}
+                </a>
+            </p>
+        </td>
+        <td>{{method.group.name}}</td>
+        <td>{{method.type}}</td>
+        <td>{{method.year}}</td>
+    </tr>
+    </tbody>
+</table>

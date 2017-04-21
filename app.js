@@ -27,10 +27,12 @@ angular.module('Methods', ngmodules)
                 controller: 'mainCtrl'
             })
             .state('search', {
-                url: "/search?query&page",
+                url: "/search?query&page&groups&tags",
                 params: {
                     query: null,
-                    page: null
+                    page: null,
+                    groups: null,
+                    tags: null
                 },
                 reloadOnSearch: false,
                 templateUrl: "partials/search.html",

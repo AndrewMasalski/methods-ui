@@ -1,5 +1,5 @@
 angular.module('Methods')
-    .controller('mainCtrl', function($scope, $rootScope, $http, $state, block,auth) {
+    .controller('mainCtrl', function($scope, $rootScope, $http, $state, block, auth) {
         $scope.user = auth.getUser();
 
         $scope.userInfo = function() {

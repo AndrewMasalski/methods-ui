@@ -1,49 +1,52 @@
 angular.module('Methods')
-    .controller('searchCtrl', function($scope, $state, $stateParams, $sce, ModalService, api, $q, block) {
-        $scope.searchTerms = undefined;
-        $scope.methods = [];
-        $scope.groups = [];
-        $scope.tags = [];
-        $scope.pageSize = 7;
-        $scope.totalCount = 0;
-        $scope.page = $stateParams.page || 1;
+    .controller('searchCtrl', function($scope, $state, $stateParams, $sce, ModalService, auth, api, block) {
+        $scope.pageSize = auth.getUser().pageSize;
+        $scope.postFilters = {groups: [], tags: []};
+        $scope.results = [];
         $scope.searchParams = {
             highlight: true,
             pageSize: $scope.pageSize,
-            query: $stateParams.query
+            query: $stateParams.query,
+            filters: {groups: [], tags: []}
         };
 
-        $scope.search = function() {
+        if ($stateParams.groups) {
+            $scope.searchParams.filters.groups = $stateParams.groups.split(',');
+        }
+        if ($stateParams.tags) {
+            $scope.searchParams.filters.tags = $stateParams.tags.split(',');
+        }
+
+        $scope.search = function(page) {
             $scope.error = undefined;
+            $scope.searchParams.page = page || 1;
             block.toggle();
-            $state.go('search', $scope.searchParams, {notify: false});
+            let routeParams = {
+                query: $scope.searchParams.query,
+                page: page,
+                groups: $scope.searchParams.filters.groups.join(','),
+                tags: $scope.searchParams.filters.tags.join(',')
+            };
+            $state.go('search', routeParams, {notify: false});
             return api.search($scope.searchParams)
                 .then(function(res) {
-                    $scope.searchTerms = $scope.searchParams.query;
+                    $scope.page = $scope.searchParams.page;
                     $scope.totalCount = res.$count;
-                    $scope.methods = res.results;
-                    $scope.tags = res.filter.tags;
-                    $scope.groups = res.filter.groups;
-                    $scope.resultsInfo = 'Найдено ' + res.$count + ' результат(а|ов)';
+                    $scope.postFilters = res.filters;
+                    $scope.results = res.results;
                     block.toggle();
                 })
                 .catch(onError)
         };
 
-        $scope.pageChanged = function() {
-            console.log('Page changed to: ' + $scope.page);
-            $scope.searchParams.page = $scope.page;
-            $scope.search();
-        };
-
-        $scope.addTagFilter = function($event, tag) {
-            $event.preventDefault();
-//            $scope.searchParams.tags.push(tag);
-        };
-
         if (!!$scope.searchParams.query) {
-            $scope.search();
+            $scope.search($stateParams.page);
         }
+
+        $scope.onFiltersApply = function(filters) {
+            $scope.searchParams.filters = filters;
+            $scope.search();
+        };
 
         function onError(err) {
             $scope.error = err;

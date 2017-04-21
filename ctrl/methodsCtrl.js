@@ -15,7 +15,6 @@ angular.module('Methods')
 
                 $scope.next = res[2].$next;
                 $scope.methods = res[2].results;
-                $scope.resultsInfo = 'Найдено ' + $scope.methods.length + ' из ' + res.$count;
                 block.toggle();
                 $scope.busy = false;
             })
@@ -30,7 +29,6 @@ angular.module('Methods')
                     angular.forEach(res.results, function(method) {
                         $scope.methods.push(method);
                     });
-                    $scope.resultsInfo = 'Показано ' + $scope.methods.length + ' из ' + res.$count;
                     $scope.next = res.$next;
                     $scope.busy = false;
                 })

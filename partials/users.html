@@ -1,5 +1,5 @@
 <div class="form">
-    <fieldset  style="margin: 10px" ng-disabled="readOnly" >
+    <fieldset ng-disabled="readOnly" >
         <form class="form-horizontal" name="userForm" novalidate>
             <div class="form-group" ng-class="{ 'has-error' : userForm.username.$invalid && !userForm.username.$pristine }">
                 <label>Ник</label>
@@ -15,6 +15,11 @@
             <div class="form-group">
                 <label>Фамилия</label>
                 <input type="text" id="lastname" class="form-control" ng-model="user.lastname">
+            </div>
+
+            <div class="form-group">
+                <label>Размер страницы в списках</label>
+                <input type="text" id="pageSize" class="form-control" ng-model="user.pageSize">
             </div>
 
 <!--
