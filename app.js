@@ -8,7 +8,8 @@ let ngmodules = [
     'ngTagsInput',
     'blockUI',
     'infinite-scroll',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'colorpicker.module'
 ];
 angular.module('Methods', ngmodules)
     .config(function($stateProvider, $urlRouterProvider, blockUIConfig) {

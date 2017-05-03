@@ -25,7 +25,7 @@ angular.module('Methods')
 
             const clone = _.clone(tag);
             clone.text = value;
-            return api.tags.save(clone);
+            api.tags.save(clone);
         };
 
         $scope.delete = function(tag) {
@@ -33,6 +33,16 @@ angular.module('Methods')
                 .then(function() {
                     _.remove($scope.tag, {_id: tag._id})
                 })
+        };
+
+        $scope.colorChanged = function(tag) {
+            api.tags.save(tag);
+/*
+            if (tag.color === event.value) return true;
+
+            const clone = _.clone(tag);
+            clone.color = event.value;
+*/
         };
 
         function onError(err) {

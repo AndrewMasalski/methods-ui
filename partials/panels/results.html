@@ -27,7 +27,7 @@
             <div ng-bind-html="method.description"></div>
             <p class="text-muted">
                 <a href="#"
-                   style="margin-left: 5px"
+                   style="margin-left: 5px; background-color: {{tag.color}} !important;"
                    class="label label-info"
                    ng-repeat="tag in method.tags"
                    ng-click="addTagFilter($event, tag)">

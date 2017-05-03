@@ -24,6 +24,14 @@
                     <span class="label label-info">{{tag.weigth}}</span> <a ui-sref="search({tag: tag._id})">{{tag.text}}</a>
                 </td>
                 <td class="text-right text-nowrap">
+                    <button type="button"
+                            colorpicker
+                            colorpicker-position="bottom"
+                            class="btn btn-sm glyphicon glyphicon-text-background"
+                            style="background-color: {{tag.color}} !important;"
+                            ng-model="tag.color"
+                            on-close="colorChanged(tag)">
+                    </button>
                     <button type="button" class="btn btn-info btn-sm" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
