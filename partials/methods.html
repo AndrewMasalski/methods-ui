@@ -18,7 +18,11 @@
         <td>{{method.type}}</td>
         <td>{{method.year}}</td>
         <td>
-            <a href="#" style="margin-left: 5px" class="label label-info" ng-repeat="tag in method.tags">
+            <a href="#"
+               style="margin-left: 5px;
+               background-color: {{tag.color}} !important;"
+               class="label label-info"
+               ng-repeat="tag in method.tags">
                 {{tag.text}}
             </a>
         </td>
