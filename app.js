@@ -46,6 +46,12 @@ angular.module('Methods', ngmodules)
                 data: {requireLogin: true},
                 controller: 'methodsCtrl'
             })
+            .state('profile', {
+                url: "/profile/:username",
+                templateUrl: "partials/profile.html",
+                data: {requireLogin: true},
+                controller: 'profileCtrl'
+            })
             .state('users', {
                 url: "/users/:username",
                 templateUrl: "partials/users.html",

@@ -1,8 +1,6 @@
 angular.module('Methods')
-    .controller('methodDetailsController', function($scope, close, action, method, groups, tags) {
-        $scope.tags = tags;
-        $scope.groups = groups;
-        $scope.method = method || {};
+    .controller('userController', function($scope, close, action, user) {
+        $scope.user = user;
         $scope.action = action;
         if ($scope.action === 'Delete') {
             $scope.readOnly = true;

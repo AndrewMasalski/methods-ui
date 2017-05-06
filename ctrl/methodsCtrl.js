@@ -56,8 +56,8 @@ angular.module('Methods')
 
         function ask(action, data, cb) {
             let modalOptions = {
-                templateUrl: 'partials/methodDetails.html',
-                controller: "methodDetailsController",
+                templateUrl: 'partials/modals/methodDetails.html',
+                controller: "modals/methodController",
                 inputs: {
                     action: action,
                     method: data,

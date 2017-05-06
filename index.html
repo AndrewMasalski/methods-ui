@@ -40,10 +40,12 @@
     <script src="ctrl/mainCtrl.js"></script>
     <script src="ctrl/searchCtrl.js"></script>
     <script src="ctrl/methodsCtrl.js"></script>
+    <script src="ctrl/profileCtrl.js"></script>
     <script src="ctrl/usersCtrl.js"></script>
     <script src="ctrl/groupsCtrl.js"></script>
     <script src="ctrl/tagsCtrl.js"></script>
-    <script src="ctrl/methodDetailsCtrl.js"></script>
+    <script src="ctrl/modals/methodCtrl.js"></script>
+    <script src="ctrl/modals/userCtrl.js"></script>
     <script src="ctrl/components/filters.js"></script>
     <script src="ctrl/components/results.js"></script>
     <script src="ctrl/components/bootstrap-colorpicker-module.js"></script>
@@ -64,8 +66,8 @@
                     <li ui-sref-active="active" class="item"><a ui-sref="tags">Тэги</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" ng-show="isLoggedIn()">
-                    <li ui-sref-active="active" class="item"><a
-                            ui-sref="users({userName: user.username})">{{userInfo()}}</a></li>
+                    <li ui-sref-active="active" class="item" ng-show="isAllowed()"><a ui-sref="users">Пользователи</a></li>
+                    <li ui-sref-active="active" class="item"><a ui-sref="profile({userName: user.username})">{{userInfo()}}</a></li>
                     <li class="item"><a href ng-click="logout()">Выйти</a></li>
                 </ul>
             </div>

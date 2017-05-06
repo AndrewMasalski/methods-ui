@@ -36,4 +36,7 @@ angular.module('Methods')
             $state.go('auth');
         };
 
+        $scope.isAllowed = function() {
+            return $scope.user.isAdmin === true;
+        }
     });

@@ -1,36 +1,33 @@
-<div class="form">
-    <fieldset ng-disabled="readOnly" >
-        <form class="form-horizontal" name="userForm" novalidate>
-            <div class="form-group" ng-class="{ 'has-error' : userForm.username.$invalid && !userForm.username.$pristine }">
-                <label>Ник</label>
-                <input type="text" id="username" class="form-control" ng-model="user.username" required>
-                <p ng-show="userForm.username.$invalid && !userForm.username.$pristine && userForm.$submitted" class="help-block">Введите имя пользователя.</p>
-            </div>
-
-            <div class="form-group">
-                <label>Имя</label>
-                <input type="text" id="firstname" class="form-control" ng-model="user.firstname">
-            </div>
-
-            <div class="form-group">
-                <label>Фамилия</label>
-                <input type="text" id="lastname" class="form-control" ng-model="user.lastname">
-            </div>
-
-            <div class="form-group">
-                <label>Размер страницы в списках</label>
-                <input type="text" id="pageSize" class="form-control" ng-model="user.pageSize">
-            </div>
-
-<!--
-            <div class="form-group">
-                <label>Доступ</label>
-                <select name="group" id="group" class="form-control" ng-model="user.permission._id">
-                    <option ng-repeat="permission in permissions" value="{{permission._id}}">{{permission.name}}</option>
-                </select>
-            </div>
--->
-        </form>
-    </fieldset >
-    <button type="button" ng-click="save()" class="btn btn-default" data-dismiss="modal">Сохранить</button>
+<button class="btn btn-primary btn-lg" ng-click="create()">Добавить пользователя</button>
+<div>
+    <div class="panel panel-default">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-lg-2">Ник</th>
+                <th class="col-lg-2">Имя</th>
+                <th class="col-lg-2">Фамилия</th>
+                <th class="col-lg-2">Права</th>
+                <th class="col-lg-1"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="user in users">
+                <td>{{user.username}}</td>
+                <td>{{user.firstname}}</td>
+                <td>{{user.lastname}}</td>
+                <td>{{user.isAdmin ? 'админ' : 'пользователь'}}</td>
+                <td class="text-right text-nowrap">
+                    <button type="button" class="btn btn-info btn-sm" ng-click="edit(user)">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm" ng-click="delete(user)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+<div data-ng-show="error" class="alert alert-danger"><strong>Server error:</strong> {{error}}</div>
