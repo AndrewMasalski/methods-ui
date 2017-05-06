@@ -20,6 +20,7 @@
   "dependencies": {
     "angular": "^1.6.4",
     "angular-animate": "^1.6.4",
+    "angular-base64": "^2.0.5",
     "angular-block-ui": "^0.2.2",
     "angular-cookies": "^1.6.4",
     "angular-modal-service": "^0.11.1",

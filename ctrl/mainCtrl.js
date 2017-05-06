@@ -1,28 +1,30 @@
 angular.module('Methods')
     .controller('mainCtrl', function($scope, $rootScope, $http, $state, block, auth) {
-        $scope.user = auth.getUser();
+        $scope.creds = {};
 
         $scope.userInfo = function() {
-            if ($scope.user.firstname && $scope.user.lastname) {
-                return $scope.user.firstname + ' ' + $scope.user.lastname;
+            let user = auth.getUser();
+            if (user.firstname && user.lastname) {
+                return user.firstname + ' ' + user.lastname;
             }
-            if ($scope.user.lastname) {
-                return $scope.user.lastname;
+            if (user.lastname) {
+                return user.lastname;
             }
-            return $scope.user.username;
+            return user.username;
         };
 
         $scope.login = function() {
             block.toggle();
             $scope.error = undefined;
-            auth.signin($scope.user)
+            auth.signin($scope.creds)
                 .then(function() {
                     console.log('auth success');
                     $state.go('search');
                     block.toggle();
                 })
                 .catch(function(err) {
-                    $scope.error = err.message || err.data.message;
+                    console.log('auth error');
+                    $scope.error = err;
                     block.toggle();
                 });
         };
@@ -37,6 +39,6 @@ angular.module('Methods')
         };
 
         $scope.isAllowed = function() {
-            return $scope.user.isAdmin === true;
+            return auth.getUser().isAdmin === true;
         }
     });

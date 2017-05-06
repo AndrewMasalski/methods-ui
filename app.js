@@ -9,10 +9,24 @@ let ngmodules = [
     'blockUI',
     'infinite-scroll',
     'ui.bootstrap',
-    'colorpicker.module'
+    'colorpicker.module',
+    'base64'
 ];
 angular.module('Methods', ngmodules)
-    .config(function($stateProvider, $urlRouterProvider, blockUIConfig) {
+    .service('authInterceptor', function($q) {
+        let service = this;
+
+        service.responseError = function(response) {
+            if (response.status == 401){
+                window.location = "/#!/auth?status=401";
+//                $state.transitionTo('auth');
+            }
+            return $q.reject(response);
+        };
+    })
+    .config(function($httpProvider, $stateProvider, $urlRouterProvider, blockUIConfig) {
+        $httpProvider.interceptors.push('authInterceptor');
+
         $urlRouterProvider.otherwise("/search");
 
         console.log('app.config');
@@ -71,7 +85,7 @@ angular.module('Methods', ngmodules)
                 controller: 'tagsCtrl'
             })
     })
-    .run(function($rootScope, $state, auth, editableOptions, editableThemes) {
+    .run(function($rootScope, $state, auth, editableOptions, $location) {
         console.log("app.run");
         editableOptions.theme = 'bs3';
 
@@ -80,6 +94,9 @@ angular.module('Methods', ngmodules)
         $rootScope.$on("$stateChangeStart",
             function(event, toState, toParams, fromState, fromParams) {
                 console.log('changing route from', (fromState.name || '[none]'), 'to', toState.name);
+                if ($location.$$search.status == 401) {
+                    auth.signout();
+                }
                 let requireLogin = (toState.data || {}).requireLogin;
                 if (requireLogin && !auth.authenticated()) {
                     event.preventDefault();

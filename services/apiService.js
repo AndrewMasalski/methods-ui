@@ -49,7 +49,7 @@ angular.module('Methods')
             }
         }
     })
-    .service('api', function($http, $q, host, EntitySet, onError) {
+    .service('api', function($http, $q, $base64, host, EntitySet, onError) {
         let api = this;
         this.users = new EntitySet('users', 'urm');
         this.methods = new EntitySet('methods');
@@ -57,11 +57,17 @@ angular.module('Methods')
         this.groups = new EntitySet('groups');
 
         this.login = function(user) {
+            let encoded = $base64.encode(user.username + ":" + user.password);
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + encoded;
+            console.log($http.defaults.headers.common['Authorization']);
             return $http.post(host + 'auth/login', user)
                 .then(function(response) {
                     return response.data;
                 })
-                .catch(onError);
+                .catch(function(err) {
+                    delete $http.defaults.headers.common['Authorization'];
+                    return onError(err);
+                });
         };
 
         this.search = function(params) {

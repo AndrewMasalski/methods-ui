@@ -1,11 +1,13 @@
 angular.module('Methods')
-    .service('auth', function($http, $cookies, api) {
+    .service('auth', function($http, $cookies, $base64, api) {
         const cookieName = 'methods-token';
         this.user = undefined;
         this.getUser = function() {
             if (this.user === undefined) {
                 try {
                     this.user = JSON.parse($cookies.get(cookieName));
+                    let encoded = $base64.encode(this.user.username + ":" + this.user.password);
+                    $http.defaults.headers.common['Authorization'] = 'Basic ' + encoded;
                 } catch (e) {
                     this.user = {};
                 }
@@ -24,16 +26,12 @@ angular.module('Methods')
         };
 
         this.signout = function() {
+            console.log('sign out');
             delete $cookies.remove(cookieName);
         };
 
         this.authenticated = function() {
-            return !!this.getUser().session;
-        };
-
-        this.update = function(user) {
-            $cookies.put(cookieName, JSON.stringify(user));
-            this.user = user;
+            return !!this.user && !!this.user.session;
         };
 
         return this;
