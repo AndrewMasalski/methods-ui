@@ -10,7 +10,7 @@ angular.module('Methods')
                     groups: _.map(groups, '_id'),
                     tags: _.map(tags, '_id')
                 };
-                this.onApply({filters: filterState});
+                ctrl.onApply({filters: filterState});
             }
         },
         bindings: {

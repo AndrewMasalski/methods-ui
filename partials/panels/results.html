@@ -30,7 +30,7 @@
                    style="margin-left: 5px; background-color: {{tag.color}} !important;"
                    class="label label-info"
                    ng-repeat="tag in method.tags"
-                   ng-click="addTagFilter($event, tag)">
+                   ng-click="$ctrl.onTagClick($event, tag)">
                     {{tag.text}}
                 </a>
             </p>

@@ -3,29 +3,30 @@
        infinite-scroll-distance='1'>
     <thead>
     <tr>
-        <th class="col-lg-4">Описание</th>
+        <th class="col-lg-6">Описание</th>
         <th class="col-lg-1">Группа</th>
         <th class="col-lg-1">Тип</th>
         <th class="col-lg-1">Год</th>
-        <th class="col-lg-2">Тэги</th>
         <th class="col-lg-1"></th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="method in methods">
-        <td>{{method.description}}</td>
+        <td>
+            <div ng-bind-html="method.description"></div>
+            <p class="text-muted">
+                <a href="#"
+                   style="margin-left: 5px; background-color: {{tag.color}} !important;"
+                   class="label label-info"
+                   ng-repeat="tag in method.tags"
+                   ui-sref="search({tags: tag._id})">
+                    {{tag.text}}
+                </a>
+            </p>
+        </td>
         <td>{{method.group.name}}</td>
         <td>{{method.type}}</td>
         <td>{{method.year}}</td>
-        <td>
-            <a href="#"
-               style="margin-left: 5px;
-               background-color: {{tag.color}} !important;"
-               class="label label-info"
-               ng-repeat="tag in method.tags">
-                {{tag.text}}
-            </a>
-        </td>
         <td class="text-right text-nowrap">
             <button type="button" class="btn btn-default btn-sm">
                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span>

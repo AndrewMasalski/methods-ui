@@ -4,9 +4,9 @@ angular.module('Methods')
         controller: function() {
             let ctrl = this;
 
-            ctrl.addTagFilter = function($event, tag) {
+            ctrl.onTagClick = function($event, tag) {
                 $event.preventDefault();
-//            $scope.searchParams.tags.push(tag);
+                ctrl.onTagClicked({tag: tag});
             };
 
         },
@@ -15,6 +15,7 @@ angular.module('Methods')
             methods: '<',
             pageSize: '<',
             totalCount: '<',
-            onPageChanged: '&'
+            onPageChanged: '&',
+            onTagClicked: '&'
         }
     });

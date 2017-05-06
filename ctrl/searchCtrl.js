@@ -39,13 +39,20 @@ angular.module('Methods')
                 .catch(onError)
         };
 
-        if (!!$scope.searchParams.query) {
+        if (!!$scope.searchParams.query ||
+            $scope.searchParams.filters.groups ||
+            $scope.searchParams.filters.tags) {
             $scope.search($stateParams.page);
         }
 
         $scope.onFiltersApply = function(filters) {
             $scope.searchParams.filters = filters;
             $scope.search();
+        };
+
+        $scope.onTagClicked = function(tag) {
+            $scope.searchParams.filters.tags.push(tag._id);
+            $scope.onFiltersApply($scope.searchParams.filters)
         };
 
         function onError(err) {
