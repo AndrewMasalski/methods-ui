@@ -1,11 +1,12 @@
 angular.module('Methods')
-    .controller('methodsCtrl', function($scope, $state, $stateParams, ModalService, api, $q, block) {
+    .controller('methodsCtrl', function($scope, $state, $stateParams, ModalService, api, $q, block, auth) {
         $scope.methods = [];
         $scope.groups = [];
         $scope.tags = [];
         $scope.newMethod = {};
         $scope.next = undefined;
         $scope.busy = true;
+        $scope.isAdmin = !!auth.user ? auth.user.isAdmin : false;
 
         block.toggle();
         $q.all([api.groups.many({top: 25}), api.tags.many(), api.methods.many()])

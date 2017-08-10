@@ -1,7 +1,8 @@
 angular.module('Methods')
-    .controller('tagsCtrl', function($scope, $state, api, block) {
+    .controller('tagsCtrl', function($scope, $state, api, block, auth) {
         $scope.tags = [];
         $scope.new = '';
+        $scope.isAdmin = !!auth.user ? auth.user.isAdmin : false;
 
         block.toggle();
         api.tags.many()

@@ -24,10 +24,10 @@
                     <span class="label label-info">{{gr.count}}</span> <a ui-sref="search({groups: gr._id})">{{gr.name || 'пусто'}}</a>
                 </td>
                 <td class="text-right text-nowrap">
-                    <button type="button" class="btn btn-info btn-sm" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
+                    <button type="button" class="btn btn-info btn-sm" ng-click="textBtnForm.$show()" ng-hide="!isAdmin || textBtnForm.$visible">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
-                    <button type="button" class="btn btn-danger btn-sm" ng-disabled="gr.count > 0" ng-click="delete(gr)">
+                    <button type="button" class="btn btn-danger btn-sm" ng-disabled="gr.count > 0" ng-show="isAdmin" ng-click="delete(gr)">
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
                 </td>

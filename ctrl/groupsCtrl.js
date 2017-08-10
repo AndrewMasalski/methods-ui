@@ -1,7 +1,8 @@
 angular.module('Methods')
-    .controller('groupsCtrl', function($scope, api, block) {
+    .controller('groupsCtrl', function($scope, api, block, auth) {
         $scope.new = '';
         $scope.groups = [];
+        $scope.isAdmin = !!auth.user ? auth.user.isAdmin : false;
 
         block.toggle();
         api.groups.many()
