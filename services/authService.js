@@ -27,11 +27,17 @@ angular.module('Methods')
 
         this.signout = function() {
             console.log('sign out');
+            this.user = undefined;
             delete $cookies.remove(cookieName);
         };
 
         this.authenticated = function() {
             return !!this.user && !!this.user.session;
+        };
+
+        this.update = function(user) {
+            this.user = user;
+            $cookies.put(cookieName, JSON.stringify(user));
         };
 
         return this;
