@@ -10,7 +10,8 @@ let ngmodules = [
     'infinite-scroll',
     'ui.bootstrap',
     'colorpicker.module',
-    'base64'
+    'base64',
+    'ngFileSaver'
 ];
 angular.module('Methods', ngmodules)
     .service('authInterceptor', function($q) {

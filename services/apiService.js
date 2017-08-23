@@ -78,5 +78,13 @@ angular.module('Methods')
                 .catch(onError);
         };
 
+        this.export = function(params) {
+            return $http.post(host + 'api/export', params, {responseType:'blob'})
+                .then(function(response) {
+                    return response.data;
+                })
+                .catch(onError);
+        };
+
         return this;
     });

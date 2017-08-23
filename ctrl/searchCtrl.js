@@ -1,5 +1,5 @@
 angular.module('Methods')
-    .controller('searchCtrl', function($scope, $state, $stateParams, $sce, ModalService, auth, api, block) {
+    .controller('searchCtrl', function($scope, $state, $stateParams, $sce, ModalService, auth, api, block, FileSaver, Blob) {
         $scope.pageSize = auth.getUser().pageSize;
         $scope.postFilters = {groups: [], tags: []};
         $scope.results = [];
@@ -53,6 +53,14 @@ angular.module('Methods')
         $scope.onTagClicked = function(tag) {
             $scope.searchParams.filters.tags.push(tag._id);
             $scope.onFiltersApply($scope.searchParams.filters)
+        };
+
+        $scope.onExport  = function(){
+            api.export($scope.searchParams)
+                .then(function(data){
+                    let blob = new Blob([data], { type: 'text/html; charset=utf-8' });
+                    FileSaver.saveAs(blob, 'export.tsv'); // todo: read filename from disposition
+                })
         };
 
         function onError(err) {

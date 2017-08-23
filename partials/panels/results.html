@@ -10,7 +10,8 @@
         class="pagination-sm"
         boundary-link-numbers="true">
     </ul>
-    <h5 class="pull-right">Найдено {{$ctrl.totalCount}} результат(а|ов)</h5>
+    <button type="button" class="btn btn-default btn-sm pull-right" ng-click="$ctrl.onExportClick($event)">экспорт</button>
+    <h5 class="pull-right">Найдено {{$ctrl.totalCount}} результат(а|ов)&nbsp;&nbsp;&nbsp;</h5>
 </div>
 <table class="table table-striped">
     <thead>

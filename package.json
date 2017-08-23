@@ -23,6 +23,7 @@
     "angular-base64": "^2.0.5",
     "angular-block-ui": "^0.2.2",
     "angular-cookies": "^1.6.4",
+    "angular-file-saver": "^1.1.3",
     "angular-modal-service": "^0.11.1",
     "angular-sanitize": "^1.6.4",
     "angular-ui-bootstrap": "^2.5.0",

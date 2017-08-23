@@ -9,6 +9,11 @@ angular.module('Methods')
                 ctrl.onTagClicked({tag: tag});
             };
 
+            ctrl.onExportClick = function($event) {
+                $event.preventDefault();
+                ctrl.onExport();
+            };
+
         },
         bindings: {
             page: '<',
@@ -16,6 +21,8 @@ angular.module('Methods')
             pageSize: '<',
             totalCount: '<',
             onPageChanged: '&',
-            onTagClicked: '&'
+            onTagClicked: '&',
+            onExport: '&',
+            onApply: '&'
         }
     });
